@@ -31,7 +31,7 @@ const Container = ({
 
   return (
     <div className={cn(
-      'flex-1',
+      'flex-1 bg-black',
       collapsed ? 'ml-[70px]' : 'ml-[70px] lg:ml-60'
     )
 

@@ -23,3 +23,7 @@ export const registerFormSchema = z.object({
     message: 'El email debe ser válido'
   }),
 })
+
+export const searcherSchema = z.object({
+  search: z.string(),
+})
