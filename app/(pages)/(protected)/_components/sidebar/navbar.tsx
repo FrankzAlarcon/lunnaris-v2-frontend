@@ -6,7 +6,6 @@ import { getUser } from '@/actions/get-user'
 
 const Navbar = async () => {
   const user = await getUser("12345")
-  console.log(user)
   return (
     <NavbarWrapper>
       <Toggle />
@@ -19,7 +18,7 @@ const Navbar = async () => {
 
 export const NavbarSkeleton = () => {
   return (
-    <aside className='fixed left-0 flex flex-col w-[70px] lg:w-60 h-full bg-background border-r bg-[#2D2E35] z-50'>
+    <aside className='bg-[#2F2F2F] fixed left-0 flex flex-col w-[70px] lg:w-60 h-full border-r z-50'>
       <ToggleSkeleton />
       <NavigationSkeleton />
     </aside>
