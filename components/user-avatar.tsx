@@ -28,7 +28,6 @@ const UserAvatar = ({
   username,
   size
 }: UserAvatarProps) => {
-  
   return (
     <div className="relative">
       <Avatar
@@ -37,7 +36,7 @@ const UserAvatar = ({
           avatarSizes({ size })          
         )}
       >
-        <AvatarImage src={image} className="object-cover" />
+        <AvatarImage src={image} onError={(e) => e.currentTarget.src = '/imgs/chat1.png'} className="object-cover" />
         <AvatarFallback>
           {username[0]}
           {username[username.length - 1]}
