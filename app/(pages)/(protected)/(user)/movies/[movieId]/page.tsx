@@ -12,7 +12,7 @@ const MovieDetails = async ({ params }: { params: { movieId: string }}) => {
     )
   }
   return (
-    <div className='relative min-h-screen'>
+    <div className='relative h-screen'>
       <MovieDetailsCard movie={media}  />
     </div>
   )

@@ -13,7 +13,7 @@ const NewFilePage = () => {
     setFileMetadata({
       id: value.id,
       tag: value.tag,
-      type: value.type
+      mimetype: value.mimetype
     })
   }
   return (

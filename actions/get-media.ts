@@ -1,5 +1,5 @@
 import { Media } from "@/interfaces/media";
-import { Movie } from "@/interfaces/movie";
+import { FileMetadata, Movie } from "@/interfaces/movie";
 import { getCurrentUser } from "./getCurrentUser";
 import { BACKEND_URL } from "@/config";
 
@@ -10,13 +10,13 @@ export const getMedia = async (): Promise<Media[] | null> => {
     const user = await getCurrentUser()
 
     if (!user) return null
-    const res = await fetch(`${BACKEND_URL}/media`, {
+    const res = await fetch(`${BACKEND_URL}/media/`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${user.token}`
       }
     })
-
+    console.log(res)
     if (!res.ok) {
       console.log(await res.text())
       return null
@@ -54,7 +54,32 @@ export const getOneMedia = async (id: string): Promise<Media | null> => {
     console.log(error)
     return null
   }
+}
 
+export const getFilesMetadata = async (): Promise<FileMetadata[] | null> => {
+  try {
+    const user = await getCurrentUser()
+
+    if (!user) return null
+
+    const res = await fetch(`${BACKEND_URL}/file/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
+    })
+
+    if (!res.ok) {
+      console.log(await res.text())
+      return null
+    }
+
+    const json = await res.json()
+
+    return json.body
+  } catch (error) {
+    return null
+  }
 }
 
 export const getPosters = async () => {

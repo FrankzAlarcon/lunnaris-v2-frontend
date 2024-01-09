@@ -7,21 +7,24 @@ import VolumeControl from "./video-player-controls/volume-control"
 import VideoControls from "./video-player-controls/video-controls"
 import VideoTime from "./video-player-controls/video-time"
 import VideoHeader from "./video-player-controls/video-header"
+import { useMediaManagement } from "@/hooks/useMediaManagement"
 
 interface VideoPlayerProps {
-  videoId: string
+  mediaId: string
 }
 
 const VideoPlayer = ({
-  videoId
+  mediaId
 }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
+  const { media } = useMediaManagement()
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [volume, setVolume] = useState(50)
   const [isPaused, setIsPaused] = useState(true)
   const [time, setTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const selectedMedia = media.find((m) => m.id === mediaId)
 
   const onVolumeChange = (value: number) => {
     setVolume(+value)
@@ -103,7 +106,7 @@ const VideoPlayer = ({
       className='aspect-video border-b group relative w-full h-full'
     >
       <video
-        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${videoId}`}
+        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${selectedMedia?.file}`}
         ref={videoRef}
         width='100%'
         onTimeUpdate={() => {setTime(videoRef.current?.currentTime || 0)}}
@@ -111,7 +114,7 @@ const VideoPlayer = ({
       />
       <div className="absolute top-0 h-full w-full opacity-0 hover:opacity-100 hover:transition-all">
         <div className="absolute top-0 w-full h-20 items-center justify-between bg-gradient-to-r from-neutral-900">
-          <VideoHeader title="Batman" />
+          <VideoHeader title={selectedMedia?.title as string} />
         </div>
         <div className="absolute bottom-20 w-full px-4">
           <VideoTime

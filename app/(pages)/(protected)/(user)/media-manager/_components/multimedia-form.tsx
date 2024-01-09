@@ -90,12 +90,10 @@ const MultimediaForm = ({
 
   const handleDuration = (evt: SyntheticEvent<HTMLVideoElement, Event>) => {
     form.setValue('duration', String(videoRef.current?.duration))
-    console.log(form.getValues())
   }
 
   const onSubmit = async (values: z.infer<typeof createMultimediaSchema>) => {
     try {
-      console.log(values)
       const response = await fetch('/api/media', {
         method: 'POST',
         headers: {

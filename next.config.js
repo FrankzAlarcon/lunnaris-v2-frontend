@@ -3,9 +3,9 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: '127.0.0.1',
-        port: '5000',
+        protocol: 'https',
+        hostname: 'lunnarisv2-dev-nmmm.1.us-1.fl0.io',
+        port: '',
         pathname: '/api/file/**',
       }
     ]

@@ -48,7 +48,10 @@ const Navigation = ({
   user,
 }: NavigationProps) => {
   const { collapsed } = useNavbar((state) => state)
-
+  const handleSignOut = () => {
+    signOut()
+    localStorage.clear()
+  }
   return (
     <nav className="flex flex-col justify-between h-full px-2">
       <ul className="space-y-4">
@@ -66,7 +69,7 @@ const Navigation = ({
       </ul>
       <div className="pb-4 w-full">
         <Hint label='Cerrar sesión' side='right' asChild>
-          <Button onClick={() => signOut()} className="w-full flex gap-4 bg-transparent text-base text-white justify-start hover:bg-white/10 duration-500 rounded-md rounded-l-none">
+          <Button onClick={handleSignOut} className="w-full flex gap-4 bg-transparent text-base text-white justify-start hover:bg-white/10 duration-500 rounded-md rounded-l-none">
             <LogOut className="h-6 w-6"/>
             {
               !collapsed && 'Cerrar sesión'

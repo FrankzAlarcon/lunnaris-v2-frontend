@@ -4,7 +4,8 @@
 import { Button } from "@/components/ui/button"
 import UserAvatar from "@/components/user-avatar"
 import { useChat } from "@/hooks/use-chat"
-import { ChatUser, User } from "@/interfaces/user"
+import useChatManagement from "@/hooks/use-chat-management"
+import { User } from "@/interfaces/user"
 
 interface UserChatItemProps {
   chat: User
@@ -14,7 +15,9 @@ const UserChatItem = ({
   chat
 }: UserChatItemProps) => {
   const { onHide } = useChat((state) => state)
+  const { handleSeletedChat } = useChatManagement()
   const handleChat = () => {
+    handleSeletedChat(chat)
     onHide()
   }
   return (
@@ -22,7 +25,6 @@ const UserChatItem = ({
       <UserAvatar image={chat.fullName} username={chat.fullName}/>
       <div className="flex flex-col items-start">
         <span className="font-bold">{chat.fullName}</span>
-        <span className="text-sm text-gray-600 font-light">Hola, como estas?</span>
       </div>
     </Button>
   )

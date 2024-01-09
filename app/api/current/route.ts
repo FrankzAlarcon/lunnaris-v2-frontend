@@ -1,5 +1,4 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import { UserType } from "@/enums/user-type.enum";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -9,7 +8,11 @@ export async function GET(
     const response = await getCurrentUser()
     if (!response) {
       console.log('[current] no user')
-      return NextResponse.redirect(new URL('/', request.url))
+      return NextResponse.json({
+        url: new URL('/', request.url)
+      }, {
+        status: 401,
+      })
     }
     console.log('[current]', response)
 
@@ -20,7 +23,10 @@ export async function GET(
     // } else if (response.userType.id === UserType.MEDIA_MANAGER) {
     //   return NextResponse.redirect(new URL('/media-manager/home', request.url))
     // }
-    return NextResponse.redirect(new URL('/home', request.url))
+    return NextResponse.json({
+      url: new URL('/home', request.url),
+      user: response
+    })
   } catch (error) {
     console.log('[REGISTRATION_ERROR]', error)
     return new NextResponse('Internal Error', {

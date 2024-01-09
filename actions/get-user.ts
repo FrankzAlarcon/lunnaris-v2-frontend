@@ -13,7 +13,6 @@ export const getUser = async (id: string, token: string): Promise<User | null> =
       return null
     }
     const json = await res.json()
-  
     return json.body
   } catch (error) {
     return null

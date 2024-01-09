@@ -1,6 +1,5 @@
 import React from 'react'
 import VideoPlayer from '../_components/video-player'
-import { getOneMedia } from '@/actions/get-media'
 
 const VideoPage = ({
   params
@@ -11,7 +10,7 @@ const VideoPage = ({
 }) => {
   return (
     <div className='min-h-screen'>
-      <VideoPlayer videoId={params.videoId} />
+      <VideoPlayer mediaId={params.videoId} />
     </div>
   )
 }

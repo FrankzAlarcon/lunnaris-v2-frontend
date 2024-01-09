@@ -5,7 +5,7 @@ export interface User {
   fullName: string
   id: string
   phone: string
-  seeLater: any[]
+  seeLater: string[]
   userType: {
     id: number
     value: string
@@ -15,26 +15,28 @@ export interface User {
   token: string
 }
 
-export interface User2 {
+export interface Participant {
   id: string
-  name: string
-  email: string
-  image: string
+  fullName: string
 }
 
-interface Chat {
-  id: string
-  messages: Message[]
-}
-
-interface Message {
-  id: string
-  text: string
-  createdAt: string
-  from: User2
-}
 export interface ChatUser {
   id: string
-  user: User2
   messages: Message[]
+  participants: Participant[]
+}
+
+export interface Message {
+  id: string
+  content: string
+  recipient: Participant
+  sender: Participant
+  timestamp: number
+}
+
+export interface SendMessage {
+  content: string
+  recipient: string
+  sender: string
+  timestamp: number
 }

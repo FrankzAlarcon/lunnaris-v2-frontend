@@ -2,10 +2,49 @@
 
 import { Button } from "@/components/ui/button"
 import { FileMetadata } from "@/interfaces/movie"
+import DeleteAlert from "./common/delete-alert"
 
 interface ResultTableProps {
   fileMetadata: FileMetadata
   setFileMetadata: (fileMetadata: FileMetadata | null) => void
+}
+
+export const FileTable = ({
+  filesMetadata,
+  onAction
+}: { filesMetadata: FileMetadata[], onAction: (value: any) => {}} ) => {
+  return (
+    <table className="w-full">
+      <thead className="text-green-500 font-bold">
+        <tr className="border-b-2 border-b-gray-200">
+          <td>Id</td>
+          <td>Etiqueta</td>
+          <td>Tipo</td>
+          <td>Acciones</td>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          filesMetadata.map((fileMetadata) => (
+            <tr key={fileMetadata.id} className="border-b">
+              <td className="py-2">{fileMetadata.id}</td>
+              <td className="py-2">
+                <span className="bg-gray-200 rounded-full px-3 py-1">{fileMetadata.tag}</span>
+              </td>
+              <td className="py-2">{fileMetadata.mimetype}</td>
+              <td>
+                <DeleteAlert
+                    itemId={fileMetadata.id}
+                    itemTitle={fileMetadata.id}
+                    onAction={() => onAction(fileMetadata.id)}
+                  />
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  )
 }
 
 const ResultTable = ({
@@ -29,14 +68,14 @@ const ResultTable = ({
             <td className="py-2">
               <span className="bg-gray-200 rounded-full px-3 py-1">{fileMetadata.tag}</span>
             </td>
-            <td className="py-2">{fileMetadata.type}</td>
+            <td className="py-2">{fileMetadata.mimetype}</td>
           </tr>
         </tbody>
       </table>
       <p className="text-center font-bold text-lg pt-4 pb-2">Vista previa</p>
       <div className="w-full p-4 border border-dashed rounded-xl">
         {
-          fileMetadata.type.includes('image') ? (
+          fileMetadata.mimetype.includes('image') ? (
             <img
               src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fileMetadata.id}`}
               alt="image"

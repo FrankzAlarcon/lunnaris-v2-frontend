@@ -2,10 +2,16 @@
 
 import { Input } from '@/components/ui/input'
 import { User } from 'lucide-react'
-import React from 'react'
 
-const Searcher = () => {
-  const [value, setValue] = React.useState('')
+interface SearcherProps {
+  value: string
+  setValue: (value: string) => void    
+}
+
+const Searcher = ({
+  value,
+  setValue
+}: SearcherProps) => {
   return (
     <div className='relative'>
       <Input

@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { FileMetadata } from '@/interfaces/movie'
 import { Upload } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import React, { ChangeEvent, useRef } from 'react'
 import toast from 'react-hot-toast'
 
@@ -16,6 +17,7 @@ const UploadFile = ({
   setIsLoading
 }: UploadFileProps) => {
   const inputFileRef = useRef<HTMLInputElement>(null)
+  const session = useSession()
 
   const onHandleUpload = () => {
     inputFileRef?.current?.click()
@@ -30,9 +32,12 @@ const UploadFile = ({
       }
       const formData = new FormData()
       formData.append('file', file)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/file`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/`, {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${session.data?.jwt}`
+        }
       })
   
       if (!response.ok) {
@@ -42,7 +47,7 @@ const UploadFile = ({
       handleNewFile({
         id: uploaded.body.id,
         tag: file.name.split('.').pop() ?? '',
-        type: file.type
+        mimetype: file.type
       })
       return toast.success('Archivo subido correctamente')
     } catch (error) {

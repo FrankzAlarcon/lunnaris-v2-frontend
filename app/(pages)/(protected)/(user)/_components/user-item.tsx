@@ -1,3 +1,4 @@
+import Hint from "@/components/hint"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import UserAvatar from "@/components/user-avatar"
@@ -17,8 +18,8 @@ const UserItem = ({
 }: UserItemProps) => {
   const pathname = usePathname()
   const { collapsed } = useNavbar((state) => state)
-  const href = `/user/${username}`
-  const isActive = pathname === href
+  // const href = `/user/${username}`
+  // const isActive = pathname === href
   return (
     <Button
       asChild
@@ -26,10 +27,10 @@ const UserItem = ({
       className={cn(
         'w-full h-12 hover:bg-white/10 hover:bg-opacity-10',
         collapsed ? 'justify-center' : 'justify-start',
-        isActive && 'bg-accent'
+        // isActive && 'bg-accent'
       )}
     >
-      <Link href={href}>
+      <Hint label={username} side="right" asChild>
         <div className={cn(
           'flex items-center w-full gap-x-4',
           collapsed && 'justify-center'
@@ -41,7 +42,7 @@ const UserItem = ({
             </p>
           )}
         </div>
-      </Link>
+      </Hint>
     </Button>
   )
 }

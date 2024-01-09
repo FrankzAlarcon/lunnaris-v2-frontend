@@ -5,7 +5,7 @@ import { getCurrentUser } from '@/actions/getCurrentUser'
 import { redirect } from 'next/navigation'
 import { UserType } from '@/enums/user-type.enum'
 import MediaManagementProvider from '@/context/media-management-provider'
-import { getMedia } from '@/actions/get-media'
+import { getFilesMetadata, getMedia } from '@/actions/get-media'
 
 const UserLayout = async ({
   children
@@ -17,7 +17,9 @@ const UserLayout = async ({
     return redirect('/')
   }
   const media = await getMedia()
-  if (media === null) {
+  const files = await getFilesMetadata()
+  console.log(media, files)
+  if (media === null || files === null) {
     return (
       <p>Ha ocurrido un error</p>
     )
@@ -30,7 +32,7 @@ const UserLayout = async ({
       <Suspense fallback={<NavbarSkeleton />}>
         <Navbar user={user} />
       </Suspense>
-      <MediaManagementProvider data={media}>
+      <MediaManagementProvider data={media} files={files}>
         <Container>
           {children}
         </Container>

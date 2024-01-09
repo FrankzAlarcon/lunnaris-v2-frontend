@@ -55,11 +55,17 @@ const RegisterForm = () => {
           className: 'text-sm'
         })
       }
-    }).then(async () => {
-      await signIn('credentials', {
+      return response
+    }).then(async (res) => {
+      console.log(res)
+      if (typeof res === 'string') return
+      if (!res.ok) return
+      signIn('credentials', {
         username: values.username,
         password: values.password,
         redirect: false
+      }).then(() => {
+        router.push('/home')
       })
     }).catch((error) => {
       console.log(error)
@@ -79,7 +85,7 @@ const RegisterForm = () => {
   return (
     steps === Steps.REGISTER ? (
       <Form {...form}>
-        <form className='w-full p-2 space-y-2' onSubmit={form.handleSubmit(onSubmit)}>
+        <form className='w-full p-2 space-y-2 max-h-[75vh] overflow-y-scroll' onSubmit={form.handleSubmit(onSubmit)}>
         <p className="text-center text-sm ">¡Crea una cuenta para disfrutar de tus películas favoritas!</p>
           <FormField
             control={form.control}

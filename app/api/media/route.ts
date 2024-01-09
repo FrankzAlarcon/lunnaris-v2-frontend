@@ -1,4 +1,5 @@
 import { getCurrentUser } from "@/actions/getCurrentUser"
+import { BACKEND_URL } from "@/config"
 import { NextResponse } from "next/server"
 
 export async function POST(
@@ -25,7 +26,7 @@ export async function POST(
       file: body.file,
       duration: Number(body.duration),
     }
-    const response = await fetch(`${process.env.BACKEND_URL}/media`, {
+    const response = await fetch(`${BACKEND_URL}/media/`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${user.token}`,
@@ -34,7 +35,7 @@ export async function POST(
       body: JSON.stringify(reqData)
     })
 
-    if (!response.ok) {
+    if (response.status !== 201 || !response.ok) {
       console.log(await response.text())
       return new NextResponse('Error al crear el registro', {
         status: 400,

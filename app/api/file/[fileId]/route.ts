@@ -13,7 +13,7 @@ export async function DELETE(
         status: 401,
       })
     }
-    const response = await fetch(`${BACKEND_URL}/media/${params.fileId}/`, {
+    const response = await fetch(`${BACKEND_URL}/file/${params.fileId}/`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${user.token}`,
@@ -30,7 +30,7 @@ export async function DELETE(
     const media = await response.json()
     return NextResponse.json(media.body)
   } catch (error) {
-    console.log('[DELETE_MEDIA_ERROR]', error)
+    console.log('[DELETE_FILE_ERROR]', error)
     return new NextResponse('Internal Error', {
       status: 500,
     })
