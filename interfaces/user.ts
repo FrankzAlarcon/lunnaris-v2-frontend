@@ -1,23 +1,42 @@
 export interface User {
-  id: string
-  name: string
   email: string
-  image: string
+  firstName: string
+  lastName: string
+  fullName: string
+  id: string
+  phone: string
+  seeLater: string[]
+  userType: {
+    id: number
+    value: string
+  }
+  username: string
+  watched: any[]
+  token: string
 }
 
-interface Chat {
+export interface Participant {
   id: string
-  messages: Message[]
+  fullName: string
 }
 
-interface Message {
-  id: string
-  text: string
-  createdAt: string
-  from: User
-}
 export interface ChatUser {
   id: string
-  user: User
   messages: Message[]
+  participants: Participant[]
+}
+
+export interface Message {
+  id: string
+  content: string
+  recipient: Participant
+  sender: Participant
+  timestamp: number
+}
+
+export interface SendMessage {
+  content: string
+  recipient: string
+  sender: string
+  timestamp: number
 }

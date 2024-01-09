@@ -1,0 +1,6 @@
+export const {
+  BACKEND_URL,
+  NEXTAUTH_SECRET,
+  NEXT_PUBLIC_BACKEND_URL,
+  NEXT_PUBLIC_SOCKET_URL
+} = process.env;
