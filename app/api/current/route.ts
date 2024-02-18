@@ -1,15 +1,13 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  request: Request,
-) {
+export async function GET() {
   try {
     const response = await getCurrentUser()
     if (!response) {
       console.log('[current] no user')
       return NextResponse.json({
-        url: new URL('/', request.url)
+        url: '/'
       }, {
         status: 401,
       })
@@ -24,7 +22,7 @@ export async function GET(
     //   return NextResponse.redirect(new URL('/media-manager/home', request.url))
     // }
     return NextResponse.json({
-      url: new URL('/home', request.url),
+      url: '/home',
       user: response
     })
   } catch (error) {
