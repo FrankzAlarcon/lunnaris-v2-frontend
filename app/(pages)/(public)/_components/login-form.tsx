@@ -24,7 +24,7 @@ const LoginForm = () => {
   })
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
-  const { onGoRegister } = useRegister()
+  const { onGoRegister, onGoResetPassword } = useRegister()
 
   const onSubmit = async (values: z.infer<typeof loginFormSchema>) => {
     try {
@@ -87,6 +87,7 @@ const LoginForm = () => {
         </div>
       </form>
       <p className='text-center text-sm py-2'>¿No tienes cuenta? <Button onClick={onGoRegister} className='w-fit h-fit bg-transparent mx-auto mb-4 p-0 text-green-500 hover:underline hover:bg-transparent'>Regístrate</Button></p>
+      <p className='text-center text-sm'><Button size='sm' onClick={onGoResetPassword} className='w-fit h-fit bg-transparent mx-auto mb-4 p-0 text-green-500 hover:underline hover:bg-transparent'>¿Has olvidado tu contraseña?</Button></p>
     </Form>
   )
 }

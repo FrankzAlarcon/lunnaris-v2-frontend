@@ -1,13 +1,17 @@
 import { create } from "zustand";
 
+type FormType = "login" | "register" | "reset-password";
+
 interface RegisterStore {
-  isRegister: boolean;
+  formType: FormType;
   onGoRegister: () => void;
+  onGoResetPassword: () => void
   onGoLogin: () => void;
 }
 
 export const useRegister = create<RegisterStore>((set) => ({
-  isRegister: false,
-  onGoLogin: () => set({ isRegister: false }),
-  onGoRegister: () => set({ isRegister: true }),
+  formType: 'login',
+  onGoLogin: () => set({ formType: 'login' }),
+  onGoRegister: () => set({ formType: 'register' }),
+  onGoResetPassword: () => set({ formType: 'reset-password' })
 }));

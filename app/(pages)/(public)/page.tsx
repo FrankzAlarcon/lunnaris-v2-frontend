@@ -5,9 +5,10 @@ import RegisterForm from "./_components/register-form";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import ResetPasswordForm from "./_components/reset-password-form";
 
 export default function Auth() {
-  const { isRegister } = useRegister()
+  const { formType } = useRegister()
   const session = useSession()
   const router = useRouter()
 
@@ -23,12 +24,14 @@ export default function Auth() {
         <div className="w-full max-w-xl p-4 bg-white rounded-lg">
           <h1 className="text-center text-3xl py-2 font-bold">Lunnaris</h1>
           <div>
+          {
+              formType === 'login' && <LoginForm />
+            }
             {
-              isRegister ? (
-                <RegisterForm />
-              ) : (
-                <LoginForm />
-              )
+              formType === 'register' && <RegisterForm />
+            }
+            {
+              formType === 'reset-password' && <ResetPasswordForm />
             }
           </div>
         </div>
