@@ -7,6 +7,7 @@ import MovieList from '../_components/movie/movie-list'
 const HomePage = async () => {
   const movies = await getMovies()
   const media = await getMedia()
+  console.log(movies, media)
   if (!movies || !media) {
     return (
       <div>

@@ -33,3 +33,18 @@ export const registerFormSchema = z.object({
 export const searcherSchema = z.object({
   search: z.string(),
 })
+
+export const resetPasswordSchema = z.object({
+  email: z.string().email({
+    message: 'El email debe ser válido'
+  }),
+})
+
+export const newPasswordSchema = z.object({
+  password: z.string().min(6, {
+    message: 'La contraseña debe tener al menos 6 caracteres'
+  }),
+  confirmPassword: z.string().min(6, {
+    message: 'La contraseña debe tener al menos 6 caracteres'
+  }),
+})
