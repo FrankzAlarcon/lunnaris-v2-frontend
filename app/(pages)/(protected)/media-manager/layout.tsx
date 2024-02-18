@@ -11,7 +11,7 @@ const MediaManagerLayout = async ({
   if (!user) {
     return redirect('/')
   }
-  if (user.userType.id !== UserType.MEDIA_MANAGER) {
+  if (user.type.id !== UserType.MEDIA_MANAGER) {
     return redirect('/')
   }
   return (
