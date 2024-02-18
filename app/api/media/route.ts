@@ -1,5 +1,7 @@
+import { getFilesUrl } from "@/actions/get-media"
 import { getCurrentUser } from "@/actions/getCurrentUser"
-import { BACKEND_URL } from "@/config"
+import {  MEDIA_SERVICE_URL } from "@/config"
+import { Media } from "@/interfaces/media"
 import { NextResponse } from "next/server"
 
 export async function POST(
@@ -26,7 +28,7 @@ export async function POST(
       file: body.file,
       duration: Number(body.duration),
     }
-    const response = await fetch(`${BACKEND_URL}/media/`, {
+    const response = await fetch(`${MEDIA_SERVICE_URL}/media/`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${user.token}`,
@@ -35,7 +37,7 @@ export async function POST(
       body: JSON.stringify(reqData)
     })
 
-    if (response.status !== 201 || !response.ok) {
+    if (![200, 201].includes(response.status)) {
       console.log(await response.text())
       return new NextResponse('Error al crear el registro', {
         status: 400,
@@ -43,7 +45,26 @@ export async function POST(
     }
 
     const media = await response.json()
-    return NextResponse.json(media.body)
+    const filesUrl = await getFilesUrl(
+      [media.body.poster, media.body.file, media.body.thumb],
+      user.token
+    )
+    const mediaWithUrl: Media = {
+      ...media.body,
+      poster: {
+        id: media.body.poster,
+        url: filesUrl[0]
+      },
+      file: {
+        id: media.body.file,
+        url: filesUrl[1]
+      },
+      thumb: {
+        id: media.body.thumb,
+        url: filesUrl[2]
+      }
+    }
+    return NextResponse.json(mediaWithUrl)
   } catch (error) {
     console.log('[CREATE_MEDIA_ERROR]', error)
     return new NextResponse('Internal Error', {

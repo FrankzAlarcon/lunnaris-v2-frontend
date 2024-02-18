@@ -42,7 +42,7 @@ const FileList = () => {
       />
       <div className='w-full pt-4 md:w-3/4'>
         {
-          filteredFiles.length > 0 ? (
+          filteredFiles?.length > 0 ? (
             <FileTable  filesMetadata={filteredFiles} onAction={handleDeleteFile} />
           ) : (
             <p className="flex flex-col items-center justify-center text-green-500 font-bold pt-4">

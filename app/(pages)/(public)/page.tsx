@@ -13,7 +13,7 @@ export default function Auth() {
 
   useEffect(() => {
     if (session.status === 'authenticated') {
-      router.push('/home')
+      // router.push('/home')
     }
   }, [session, router])
   return (

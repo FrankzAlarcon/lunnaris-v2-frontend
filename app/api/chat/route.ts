@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import { BACKEND_URL } from "@/config";
+import { CHAT_SERVICE_URL } from "@/config";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -16,7 +16,7 @@ export async function GET(
 
     const params = new URLSearchParams(request.url.split('?')[1])
     console.log(params)
-    const response = await fetch(`${BACKEND_URL}/chat/?recipient=${params.get('recipient')}&create_flag`, {
+    const response = await fetch(`${CHAT_SERVICE_URL}/chat/?recipient=${params.get('recipient')}&create_flag`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${user.token}`

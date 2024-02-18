@@ -12,7 +12,7 @@ const AdminLayout = async ({
     console.log('[No user]', user)
     return redirect('/')
   }
-  if (user.userType.id !== UserType.ADMIN) {
+  if (user.type.id !== UserType.ADMIN) {
     console.log('[No admin]', user)
     return redirect('/')
   }

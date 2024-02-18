@@ -6,7 +6,7 @@ export interface User {
   id: string
   phone: string
   seeLater: string[]
-  userType: {
+  type: {
     id: number
     value: string
   }

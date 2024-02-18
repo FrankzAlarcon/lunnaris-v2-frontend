@@ -1,7 +1,7 @@
 import z from 'zod'
 
 export const loginFormSchema = z.object({
-  username: z.string().min(3, {
+  email: z.string().min(3, {
     message: 'El usuario debe tener al menos 3 caracteres'
   }),
   password: z.string().min(4, {
@@ -18,9 +18,6 @@ export const registerFormSchema = z.object({
   }),
   phone: z.string().length(10, {
     message: 'El teléfono debe tener 10 numeros'
-  }),
-  username: z.string().min(3, {
-    message: 'El usuario debe tener al menos 3 caracteres'
   }),
   email: z.string().email({
     message: 'El email debe ser válido'

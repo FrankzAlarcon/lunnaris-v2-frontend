@@ -1,10 +1,10 @@
 import { getCurrentUser } from "@/actions/getCurrentUser"
-import { MEDIA_SERVICE_URL } from "@/config"
+import { MEDIA_SERVICE_URL, USERS_SERVICE_URL } from "@/config"
 import { NextResponse } from "next/server"
 
 export async function DELETE(
   _req: Request,
-  { params }: { params: { fileId?: string } },
+  { params }: { params: { mediaId?: string } },
 ) {
   try {
     const user = await getCurrentUser()
@@ -13,7 +13,12 @@ export async function DELETE(
         status: 401,
       })
     }
-    const response = await fetch(`${MEDIA_SERVICE_URL}/media/${params.fileId}`, {
+    if (!params.mediaId) {
+      return new NextResponse('Missing mediaId', {
+        status: 400,
+      })
+    }
+    const response = await fetch(`${USERS_SERVICE_URL}/users/see_later/${params.mediaId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${user.token}`,
@@ -26,11 +31,11 @@ export async function DELETE(
         status: 400,
       })
     }
-
-    const media = await response.json()
-    return NextResponse.json(media.body)
+    const deletedMedia = await response.json()
+    console.log(deletedMedia)
+    return NextResponse.json(deletedMedia.body)
   } catch (error) {
-    console.log('[DELETE_MEDIA_ERROR]', error)
+    console.log('[DELETE_FILE_ERROR]', error)
     return new NextResponse('Internal Error', {
       status: 500,
     })

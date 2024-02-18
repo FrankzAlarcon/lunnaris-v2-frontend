@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import { UserType } from '@/enums/user-type.enum'
 import MediaManagementProvider from '@/context/media-management-provider'
 import { getFilesMetadata, getMedia } from '@/actions/get-media'
+import { FileMetadata } from '@/interfaces/movie'
 
 const UserLayout = async ({
   children
@@ -18,7 +19,6 @@ const UserLayout = async ({
   }
   const media = await getMedia()
   const files = await getFilesMetadata()
-  console.log(media, files)
   if (media === null || files === null) {
     return (
       <p>Ha ocurrido un error</p>

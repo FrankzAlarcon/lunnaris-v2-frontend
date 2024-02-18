@@ -1,4 +1,4 @@
-import { BACKEND_URL } from "@/config"
+import { MEDIA_SERVICE_URL } from "@/config"
 import { getCurrentUser } from "./getCurrentUser"
 import { Genre } from "@/interfaces/media"
 
@@ -8,7 +8,7 @@ export const getGenres = async (): Promise<Genre[] | null> => {
 
     if (!user) return null
   
-    const res = await fetch(`${BACKEND_URL}/media/enums/genres`, {
+    const res = await fetch(`${MEDIA_SERVICE_URL}/media/enums/genres`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${user.token}`

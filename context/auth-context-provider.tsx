@@ -18,7 +18,6 @@ const AuthContextProvider = ({
 }: {children: ReactNode}) => {
   const [user, setUser] = useState<User | null>(null)
   const addUser = useCallback((user: User) => {
-    console.log(user)
     setUser(user)
   }, [])
 

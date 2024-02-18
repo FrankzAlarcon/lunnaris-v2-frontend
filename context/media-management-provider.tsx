@@ -17,6 +17,7 @@ export interface MediaManagementContextProps {
   removeOneFile: (id: string) => void
   user: User | null
   addMediaToUser: (mediaId: string) => void
+  removeMediaToUser: (mediaId: string) => void
   addUser: (user: User) => void
 }
 
@@ -67,22 +68,41 @@ const MediaManagementProvider = ({
     if (!user) {
       return toast.error('Debes iniciar sesión')
     }
+  
     const response = await fetch(`/api/user/see-later`, {
       method: 'POST',
       body: JSON.stringify({
         media: mediaId
       })
     })
-    if (response.ok) {
-      toast.success('Agregado a tu lista')
+    if (!response.ok) {
+      toast.error('Error al agregar a tu lista')
     }
-    const data = await response.json()
+    toast.success('Agregado a tu lista')
     setUser({
       ...user,
       seeLater: [
         ...user.seeLater,
-        data.id
+        mediaId
       ]
+    })
+  }, [user])
+
+  const removeMediaToUser = useCallback(async (mediaId: string) => {
+    if (!user) {
+      return toast.error('Debes iniciar sesión')
+    }
+  
+    const response = await fetch(`/api/user/see-later/${mediaId}`, {
+      method: 'DELETE',
+    })
+    if (!response.ok) {
+      toast.error('Error al eliminar de tu lista')
+    }
+    toast.success('Eliminado de tu lista')
+    setUser({
+      ...user,
+      seeLater: user.seeLater.filter(id => id !== mediaId)
     })
   }, [user])
   
@@ -111,8 +131,9 @@ const MediaManagementProvider = ({
     addFile,
     removeOneFile,
     addMediaToUser,
+    removeMediaToUser,
     addUser
-  }), [media, addMedia, removeOneMedia, files, addFile, removeOneFile, user, addMediaToUser, addUser])
+  }), [media, addMedia, removeOneMedia, files, addFile, removeOneFile, user, addMediaToUser, addUser, removeMediaToUser])
 
   return (
     <MediaManagementContext.Provider value={values}>

@@ -18,7 +18,7 @@ const LoginForm = () => {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      username: '',
+      email: '',
       password: '',
     }
   })
@@ -30,13 +30,14 @@ const LoginForm = () => {
     try {
       setIsLoading(true)
       const result = await signIn('credentials', {
-        username: values.username,
+        email: values.email,
         password: values.password,
         redirect: false
       })
       if (result?.error) {
         toast.error("Usuario o contraseña incorrectos")
       }
+      router.push('/home')
     } catch (error) {
       console.log(error)
     } finally {
@@ -49,7 +50,7 @@ const LoginForm = () => {
         <p className="text-center text-sm ">¡Saludos, ingresa tus credenciales para iniciar!</p>
         <FormField
           control={form.control}
-          name='username'
+          name='email'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Usuario</FormLabel>

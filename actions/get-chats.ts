@@ -1,6 +1,6 @@
-import { ChatUser, User } from "@/interfaces/user";
+import { User } from "@/interfaces/user";
 import { getCurrentUser } from "./getCurrentUser";
-import { BACKEND_URL } from "@/config";
+import { USERS_SERVICE_URL } from "@/config";
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
@@ -10,7 +10,7 @@ export const getUsers = async (): Promise<User[] | null> => {
 
     if (!user) return null
 
-    const res = await fetch(`${BACKEND_URL}/user/`, {
+    const res = await fetch(`${USERS_SERVICE_URL}/user/`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${user.token}`

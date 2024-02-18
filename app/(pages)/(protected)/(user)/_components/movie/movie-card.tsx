@@ -12,16 +12,16 @@ const MovieCard = ({
   return (
     <Link className='relative block w-[230px] h-[340px]' href={`movies/${movie.id}`}>
       <div className='w-full h-full'>
-        <div className='absolute top-0 left-0 w-full h-full'>
+        <div className='top-0 left-0 w-full h-full'>
           <Image
-            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${movie.thumb}`}
+            src={movie.thumb.url}
             alt={movie.title}
             width={230}
             height={340}
             className='w-full h-full object-cover object-top'
           />
         </div>
-        <div className='z-10'>
+        <div className='z-20 text-white'>
           <p>{movie.title}</p>
         </div>
       </div>

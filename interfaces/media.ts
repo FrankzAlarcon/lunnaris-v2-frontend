@@ -3,15 +3,20 @@ interface GenericIdValue {
   value: string
 }
 
+interface GenericIdUrl {
+  id: string
+  url: string
+}
+
 export interface Media {
   id: string
   title: string
   synopsis: string
   year: number
   mediaType: GenericIdValue
-  poster: string
-  thumb: string
-  file: string
+  poster: GenericIdUrl
+  thumb: GenericIdUrl
+  file: GenericIdUrl
   genres:GenericIdValue[]
   duration: number
 }

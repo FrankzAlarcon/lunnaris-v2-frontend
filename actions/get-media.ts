@@ -1,7 +1,7 @@
 import { Media } from "@/interfaces/media";
 import { FileMetadata, Movie } from "@/interfaces/movie";
 import { getCurrentUser } from "./getCurrentUser";
-import { BACKEND_URL } from "@/config";
+import { FILES_SERVICE_URL, MEDIA_SERVICE_URL } from "@/config";
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
@@ -10,24 +10,65 @@ export const getMedia = async (): Promise<Media[] | null> => {
     const user = await getCurrentUser()
 
     if (!user) return null
-    const res = await fetch(`${BACKEND_URL}/media/`, {
+    const res = await fetch(`${MEDIA_SERVICE_URL}/media/`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${user.token}`
       }
     })
-    console.log(res)
+    
     if (!res.ok) {
       console.log(await res.text())
       return null
     }
 
     const json = await res.json()
-    return json.body
+    const media = Promise.all(json.body.map(async (item: any) => {
+      const files = await getFilesUrl(
+        [item.poster, item.file, item.thumb],
+        user.token)
+      return {
+        ...item,
+        poster: {
+          id: item.poster,
+          url: files[0]
+        },
+        file: {
+          id: item.file,
+          url: files[1]
+        },
+        thumb: {
+          id: item.thumb,
+          url: files[2]
+        }
+      }
+    }))
+    return media
   } catch (error) {
     console.log(error)
     return null
   }
+}
+
+export const getFilesUrl = async (fileIds: string[], token: string): Promise<string[]> => {
+  const urls = await Promise.all(fileIds.map(async (id) => {
+    const res = await fetch(`${FILES_SERVICE_URL}/file/${id}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    if (!res.ok) {
+      console.log(await res.text())
+      return ''
+    }
+    const json = await res.json()
+    console.log(json)
+    return json.data.url
+  }))
+
+  return urls
 }
 
 export const getOneMedia = async (id: string): Promise<Media | null> => {
@@ -36,7 +77,7 @@ export const getOneMedia = async (id: string): Promise<Media | null> => {
 
     if (!user) return null
 
-    const res = await fetch(`${BACKEND_URL}/media/${id}`, {
+    const res = await fetch(`${MEDIA_SERVICE_URL}/media/${id}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${user.token}`
@@ -49,7 +90,24 @@ export const getOneMedia = async (id: string): Promise<Media | null> => {
     }
 
     const json = await res.json()
-    return json.body
+    const files = await getFilesUrl(
+      [json.body.poster, json.body.file, json.body.thumb],
+      user.token)
+    return {
+      ...json.body,
+      poster: {
+        id: json.body.poster,
+        url: files[0]
+      },
+      file: {
+        id: json.body.file,
+        url: files[1]
+      },
+      thumb: {
+        id: json.body.thumb,
+        url: files[2]
+      }
+    }
   } catch (error) {
     console.log(error)
     return null
@@ -62,7 +120,7 @@ export const getFilesMetadata = async (): Promise<FileMetadata[] | null> => {
 
     if (!user) return null
 
-    const res = await fetch(`${BACKEND_URL}/file/`, {
+    const res = await fetch(`${FILES_SERVICE_URL}/file`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${user.token}`
@@ -75,8 +133,16 @@ export const getFilesMetadata = async (): Promise<FileMetadata[] | null> => {
     }
 
     const json = await res.json()
-
-    return json.body
+    const files: FileMetadata[] = json.data.map((item: any): FileMetadata => {
+      return {
+        id: item.file.id,
+        displayName: item.file.displayName,
+        mimetype: item.file.mimetype,
+        tag: item.file.originalName.split('.').pop() ?? '',
+        url: item.url
+      }
+    })
+    return files
   } catch (error) {
     return null
   }

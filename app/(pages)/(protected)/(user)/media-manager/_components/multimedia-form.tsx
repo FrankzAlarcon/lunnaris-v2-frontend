@@ -9,8 +9,9 @@ import { Genre } from '@/interfaces/media'
 import { createMultimediaSchema } from '@/schemas/multimedia.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader } from 'lucide-react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { SyntheticEvent, useRef, useState } from 'react'
+import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { z } from 'zod'
@@ -32,31 +33,52 @@ const MultimediaPlaceholder = ({
   handleDuration,
   videoRef
 }: MultimediaPlaceholderProps) => {
+  const [file, setFile] = useState<any | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const getFile = async () => {
+      if (!value) return
+      setLoading(true)
+      const response = await fetch(`/api/file/${value}`)
+      const data = await response.json()
+      setFile(data)
+      setLoading(false)
+    }
+    getFile()
+  }, [value])
   return (
     <div className='border border-dashed p-2 rounded-xl'>
       <p className='pb-2 text-muted-foreground text-center'>Vista Previa</p>
       <div className='w-full min-h-60'>
-        { !value && (
+        { !file && (
           <div className='w-full min-h-60 flex items-center justify-center bg-gray-200'>
-            <p className='text-muted-foreground text-center'>No se ha seleccionado un archivo</p>
+            {loading && (
+              <Loader className='h-6 w-6 animate-spin' />
+            )}
+            {!loading && (
+              <p className='text-muted-foreground text-center'>No se ha seleccionado un archivo</p>
+            )}
           </div>
         )}
         {
-          type === 'image' && value && (
-            <img
+          type === 'image' && value && file && (
+            <Image
               className='w-full h-full bg-gray-200'
-              src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${value}`}
+              src={file?.url}
               alt="image"
+              width={200}
+              height={200}
             />
           )
         }
         {
-          type === 'video' && value && (
+          type === 'video' && value && file && (
             <video
               ref={videoRef}
               onLoadedData={handleDuration}
               className='w-full h-full bg-gray-200'
-              src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${value}`}
+              src={file?.url}
               muted
               controls
             />

@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/actions/getCurrentUser"
-import { BACKEND_URL } from "@/config"
+import { USERS_SERVICE_URL } from "@/config"
 import { NextResponse } from "next/server"
 
 export async function POST(
@@ -18,13 +18,13 @@ export async function POST(
     const reqData = {
       media: body.media,
     }
-    const response = await fetch(`${BACKEND_URL}/user/see_later`, {
+    console.log(`${USERS_SERVICE_URL}/users/see_later`)
+    console.log(reqData)
+    const response = await fetch(`${USERS_SERVICE_URL}/users/see_later/${reqData.media}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${user.token}`,
-        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(reqData)
     })
     
     console.log(response.status)

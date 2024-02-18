@@ -22,7 +22,6 @@ const MovieList = ({
     return media.filter((m) => user?.seeLater.includes(m.id))
   }, [media, user?.seeLater, seeLater])
 
-  console.log(data)
   return (
     <div className='flex flex-col items-center gap-8 pb-8 px-2 md:flex-row md:flex-wrap md:justify-center'>
       {

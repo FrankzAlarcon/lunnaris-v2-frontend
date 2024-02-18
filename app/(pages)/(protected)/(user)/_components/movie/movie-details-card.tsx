@@ -17,14 +17,14 @@ const MovieDetailsCard = ({
   movie
 }: MovieDetailsCardProps) => {
   const router = useRouter()
-  const { user, addMediaToUser } = useMediaManagement()
+  const { user, addMediaToUser, removeMediaToUser } = useMediaManagement()
   const isAdded = user?.seeLater.includes(movie.id)
   
   return (
     <Card className='w-full h-full p-0 rounded-none border-none'>
       <CardContent className='h-full w-full p-0'>
         <Image
-          src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${movie.poster}`}
+          src={movie.poster.url}
           alt={movie.title}
           className='w-full h-full object-cover object-top'
           width={600}
@@ -43,7 +43,7 @@ const MovieDetailsCard = ({
             </Button>
             {
               isAdded ? (
-                <Button className='bg-white text-black rounded-2xl hover:bg-gray-200 hover:shadow hover:shadow-white duration-500'>
+                <Button onClick={() => removeMediaToUser(movie.id)} className='bg-white text-black rounded-2xl hover:bg-gray-200 hover:shadow hover:shadow-white duration-500'>
                   <Check />
                   <span className='ml-2'>Agregado</span>
                 </Button>

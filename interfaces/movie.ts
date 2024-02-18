@@ -1,7 +1,9 @@
 export interface FileMetadata {
   id: string
   tag: string
-  mimetype: string
+  mimetype: string,
+  displayName: string,
+  url: string
 }
 
 export interface Poster {

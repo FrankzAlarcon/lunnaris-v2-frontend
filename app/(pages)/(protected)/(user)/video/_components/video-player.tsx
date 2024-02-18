@@ -106,7 +106,7 @@ const VideoPlayer = ({
       className='aspect-video border-b group relative w-full h-full'
     >
       <video
-        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${selectedMedia?.file}`}
+        src={selectedMedia?.file.url}
         ref={videoRef}
         width='100%'
         onTimeUpdate={() => {setTime(videoRef.current?.currentTime || 0)}}

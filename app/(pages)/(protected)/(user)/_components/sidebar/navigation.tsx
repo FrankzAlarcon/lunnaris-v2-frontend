@@ -25,12 +25,14 @@ export const routes: Route[] = [
     path: '/my-list',
     Icon: PlayCircle,
     usersAllowed: [UserType.USER, UserType.ADMIN, UserType.MEDIA_MANAGER]
-  }, {
-    name: 'Social',
-    path: '/chat',
-    Icon: Users,
-    usersAllowed: [UserType.USER, UserType.ADMIN, UserType.MEDIA_MANAGER]
-  },  {
+  }, 
+  // {
+  //   name: 'Social',
+  //   path: '/chat',
+  //   Icon: Users,
+  //   usersAllowed: [UserType.USER, UserType.ADMIN, UserType.MEDIA_MANAGER]
+  // },
+  {
     name: 'Gestionar contenido',
     path: '/media-manager',
     Icon: Film,
@@ -61,7 +63,7 @@ const Navigation = ({
             username={user.fullName}
           />
         </li>
-        {routes.filter((route) => route.usersAllowed.includes(user.userType.id)).map((route) => (
+        {routes.filter((route) => route.usersAllowed.includes(user.type.id)).map((route) => (
           <li key={route.path}>
             <NavbarItem route={route}/>
           </li>

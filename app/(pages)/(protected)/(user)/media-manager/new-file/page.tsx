@@ -2,23 +2,28 @@
 import { useState } from 'react'
 import UploadFile from '../_components/upload-file'
 import { FileMetadata } from '@/interfaces/movie'
-import { Loader } from 'lucide-react'
+import { ArrowLeft, Loader } from 'lucide-react'
 import ResultTable from '../_components/result-table'
+import Link from 'next/link'
+import { useMediaManagement } from '@/hooks/useMediaManagement'
 
 const NewFilePage = () => {
   const [fileMetadata, setFileMetadata] = useState<FileMetadata | null>(null)
+  const {addFile} = useMediaManagement()
   const [isLoading, setIsLoading] = useState(false)
 
   const handleNewFile = (value: FileMetadata) => {
-    setFileMetadata({
-      id: value.id,
-      tag: value.tag,
-      mimetype: value.mimetype
-    })
+    setFileMetadata(value)
+    addFile(value)
   }
   return (
     <div className='min-h-screen bg-white p-4'>
-      <h1 className='text-3xl font-bold '>Gestión de medios</h1>
+      <div className='flex gap-4 items-center'>
+        <Link href="/media-manager">
+          <ArrowLeft className='w-8 h-8' />
+        </Link>
+        <h1 className='text-3xl font-bold '>Gestión de Archivos</h1>  
+      </div>
       <div>
         {!isLoading && !fileMetadata && (
           <UploadFile

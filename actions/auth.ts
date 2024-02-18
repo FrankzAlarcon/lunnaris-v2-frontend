@@ -1,9 +1,9 @@
-import { BACKEND_URL } from "@/config";
+import { AUTH_SERVICE_URL, USERS_SERVICE_URL } from "@/config";
 import { CreateUserDto, LoginDto } from "@/interfaces/auth";
 
 export const login = async (data: LoginDto): Promise<{ token: string, id: string } | null> => {
-  console.log(`${BACKEND_URL}/auth/login/`)
-  const res = await fetch(`${BACKEND_URL}/auth/login`, {
+  console.log('[login]', data)
+  const res = await fetch(`${AUTH_SERVICE_URL}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -22,7 +22,8 @@ export const login = async (data: LoginDto): Promise<{ token: string, id: string
 }
 
 export const registerUser = async (data: CreateUserDto): Promise<{ id: string } | null> => {
-  const response = await fetch(`${BACKEND_URL}/user/`, {
+  console.log('[register]', data)
+  const response = await fetch(`${USERS_SERVICE_URL}/users/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -30,7 +31,7 @@ export const registerUser = async (data: CreateUserDto): Promise<{ id: string } 
     body: JSON.stringify(data),
   })
   console.log(response)
-  if (response.status !== 201) {
+  if (![200, 201].includes(response.status)){
     console.log(await response.text())
     return null
   }

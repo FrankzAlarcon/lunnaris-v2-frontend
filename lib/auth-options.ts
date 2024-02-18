@@ -9,16 +9,19 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        username: { label: "Username", type: "text" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
         try {
-          if (!credentials?.username || !credentials?.password) {
+          if (!credentials?.email || !credentials?.password) {
             console.log('Missing credentials')
             throw new Error('Missing credentials')
           }
-          const data = await login(credentials)
+          const data = await login({
+            email: credentials.email,
+            password: credentials.password
+          })
 
           if (data === null) {
             console.log('Invalid credentials')
@@ -33,7 +36,7 @@ export const authOptions: AuthOptions = {
   
           return {
             ...user,
-            userType: user.userType.id,
+            userType: user.type.id,
             token: data.token,
           }
         } catch (error) {
@@ -50,7 +53,7 @@ export const authOptions: AuthOptions = {
           ...token,
           id: user.id,
           fullName: user.fullName,
-          userType: (user as any).userType.id,
+          userType: (user as any).type.id,
           jwt: (user as any).token 
         }
       }

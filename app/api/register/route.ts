@@ -24,13 +24,12 @@ export async function POST(
   
     const {confirmPassword, ...rest} = body
     const data: CreateUserDto = {
-      first_name: rest.firstName,
-      last_name: rest.lastName,
+      firstName: rest.firstName,
+      lastName: rest.lastName,
       phone: rest.phone,
-      username: rest.username,
       email: rest.email,
       password: rest.password,
-      user_type: UserType.USER
+      type: UserType.USER
     }
     const response = await registerUser(data)
   

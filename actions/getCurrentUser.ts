@@ -13,7 +13,9 @@ export const getCurrentUser = async (): Promise<User | null> => {
     if (!session?.user || !session?.jwt) return null
     const currentUser = await getUser(session?.user.id, session?.jwt)
     
-    if (!currentUser) return null
+    if (!currentUser) {
+      return null
+    } 
     
     return {
       ...currentUser,

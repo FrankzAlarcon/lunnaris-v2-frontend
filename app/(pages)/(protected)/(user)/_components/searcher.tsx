@@ -8,8 +8,6 @@ import Notification from './notification'
 import { useMediaManagement } from '@/hooks/useMediaManagement'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Media } from '@/interfaces/media'
-import Image from 'next/image'
-import { NEXT_PUBLIC_BACKEND_URL } from '@/config'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 
@@ -32,7 +30,6 @@ const Searcher = () => {
         return 
       }
       setFilteredMedia(media.filter((m) => m.title.toLowerCase().includes(debouncedValue.toLowerCase())))
-      console.log('searching...', debouncedValue)
     }
     searchMovie()
   }, [debouncedValue, media])

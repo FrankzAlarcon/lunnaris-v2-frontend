@@ -32,7 +32,9 @@ const UploadFile = ({
       }
       const formData = new FormData()
       formData.append('file', file)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/`, {
+      formData.append('mimetype', file.type)
+      formData.append('displayName', file.name)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_FILES_SERVICE_URL}/file`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -40,14 +42,16 @@ const UploadFile = ({
         }
       })
   
-      if (!response.ok) {
+      if (![200, 201].includes(response.status)) {
         return toast.error('Ha ocurrido un error al subir el archivo')
       } 
       const uploaded = await response.json()
       handleNewFile({
-        id: uploaded.body.id,
-        tag: file.name.split('.').pop() ?? '',
-        mimetype: file.type
+        id: uploaded.data.file.id,
+        tag: uploaded.data.file.originalName.split('.').pop() ?? '',
+        mimetype: uploaded.data.file.mimetype,
+        displayName: uploaded.data.file.displayName,
+        url: uploaded.data.url
       })
       return toast.success('Archivo subido correctamente')
     } catch (error) {

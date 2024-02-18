@@ -1,6 +1,6 @@
 'use client'
 
-import { NEXT_PUBLIC_BACKEND_URL, NEXT_PUBLIC_SOCKET_URL } from "@/config"
+import { NEXT_PUBLIC_SOCKET_URL } from "@/config"
 import { ChatUser, Message, User } from "@/interfaces/user"
 import { useSession } from "next-auth/react"
 import { ReactNode, createContext, useCallback, useMemo, useState } from "react"
@@ -21,7 +21,6 @@ export interface ChatContextProps {
 }
 
 export const ChatContext = createContext<ChatContextProps | null>(null)
-console.log(NEXT_PUBLIC_SOCKET_URL)
 export const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL ?? '', {
   extraHeaders: {
     'Authorization': `Bearer ${window.localStorage.getItem('token')}`

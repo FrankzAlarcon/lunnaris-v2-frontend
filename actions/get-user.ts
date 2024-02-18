@@ -1,9 +1,10 @@
-import { BACKEND_URL } from "@/config"
+import { USERS_SERVICE_URL } from "@/config"
 import { User } from "@/interfaces/user"
 
 export const getUser = async (id: string, token: string): Promise<User | null> => {
   try {
-    const res = await fetch(`${BACKEND_URL}/user/${id}`, {
+    console.log('getUser', id, token)
+    const res = await fetch(`${USERS_SERVICE_URL}/users/${id}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

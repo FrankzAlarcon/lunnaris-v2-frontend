@@ -25,7 +25,6 @@ const RegisterForm = () => {
     defaultValues: {
       firstName: '',
       lastName: '',
-      username: '',
       email: '',
       phone: '',
       confirmPassword: '',
@@ -61,7 +60,7 @@ const RegisterForm = () => {
       if (typeof res === 'string') return
       if (!res.ok) return
       signIn('credentials', {
-        username: values.username,
+        email: values.email,
         password: values.password,
         redirect: false
       }).then(() => {
@@ -121,19 +120,6 @@ const RegisterForm = () => {
                 <FormLabel>Teléfono</FormLabel>
                 <FormControl>
                   <Input disabled={isLoading} placeholder='Escriba su teléfono' {...field}/>
-                </FormControl>
-                <FormMessage className='text-xs' />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='username'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Usuario</FormLabel>
-                <FormControl>
-                  <Input disabled={isLoading} placeholder='Nombre de usuario' {...field}/>
                 </FormControl>
                 <FormMessage className='text-xs' />
               </FormItem>

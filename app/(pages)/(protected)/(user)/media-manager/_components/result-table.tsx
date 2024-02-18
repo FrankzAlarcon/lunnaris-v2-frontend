@@ -77,13 +77,13 @@ const ResultTable = ({
         {
           fileMetadata.mimetype.includes('image') ? (
             <img
-              src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fileMetadata.id}`}
+              src={fileMetadata.url}
               alt="image"
               className="w-full h-full"
             />
           ) : (
             <video
-              src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/file/${fileMetadata.id}`}
+              src={fileMetadata.url}
               className="w-full h-full"
               controls
               muted
