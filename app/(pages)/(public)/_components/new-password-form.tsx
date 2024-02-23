@@ -42,7 +42,7 @@ const NewPasswordForm = ({
         token,
         password: values.password
       })
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/reset_password`, {
+      const response = await fetch('/api/reset-password', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

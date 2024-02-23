@@ -1,5 +1,5 @@
 import { AUTH_SERVICE_URL, USERS_SERVICE_URL } from "@/config";
-import { CreateUserDto, LoginDto } from "@/interfaces/auth";
+import { CreateUserDto, LoginDto, ResetPasswordDto } from "@/interfaces/auth";
 
 export const login = async (data: LoginDto): Promise<{ token: string, id: string } | null> => {
   console.log('[login]', data)
@@ -39,4 +39,38 @@ export const registerUser = async (data: CreateUserDto): Promise<{ id: string } 
   const json = await response.json();
   console.log({json})
   return json.body;
+}
+
+export const requestResetPassword = async (email: string): Promise<boolean> => {
+  const response = await fetch(`${AUTH_SERVICE_URL}/auth/reset_password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email }),
+  })
+
+  if (!response.ok) {
+    console.log(await response.text())
+    return false
+  }
+
+  return true
+}
+
+export const resetPassword = async (data: ResetPasswordDto): Promise<boolean> => {
+  const response = await fetch(`${AUTH_SERVICE_URL}/auth/reset_password`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+  })
+
+  if (!response.ok) {
+    console.log(await response.text())
+    return false
+  }
+
+  return true
 }

@@ -36,6 +36,7 @@ const LoginForm = () => {
       })
       if (result?.error) {
         toast.error("Usuario o contraseña incorrectos")
+        return
       }
       router.push('/home')
     } catch (error) {

@@ -25,7 +25,7 @@ const ResetPasswordForm = () => {
   const onSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
     try {
       setIsLoading(true)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/reset_password`, {
+      const response = await fetch(`/api/reset-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
