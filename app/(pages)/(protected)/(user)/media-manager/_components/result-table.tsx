@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { FileMetadata } from "@/interfaces/movie"
 import DeleteAlert from "./common/delete-alert"
+import Hint from "@/components/hint"
 
 interface ResultTableProps {
   fileMetadata: FileMetadata
@@ -27,7 +28,18 @@ export const FileTable = ({
         {
           filesMetadata.map((fileMetadata) => (
             <tr key={fileMetadata.id} className="border-b">
-              <td className="py-2">{fileMetadata.id}</td>
+              {
+                fileMetadata.mimetype.includes('image') ? (
+                  <Hint
+                    label={fileMetadata.url}
+                    isImg={fileMetadata.mimetype.includes('image')}
+                  >
+                    <td className="py-2">{fileMetadata.id}</td>
+                  </Hint>
+                ) : (
+                  <td className="py-2">{fileMetadata.id}</td> 
+                )
+              }
               <td className="py-2">
                 <span className="bg-gray-200 rounded-full px-3 py-1">{fileMetadata.tag}</span>
               </td>

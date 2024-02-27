@@ -126,8 +126,9 @@ export const getFilesMetadata = async (): Promise<FileMetadata[] | null> => {
         'Authorization': `Bearer ${user.token}`
       }
     })
-
+    console.log('getFilesMetadata', res)
     if (!res.ok) {
+      console.log(res.status, res.statusText)
       console.log(await res.text())
       return null
     }

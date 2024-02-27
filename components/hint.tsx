@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
 
 interface HintProps {
@@ -6,6 +7,7 @@ interface HintProps {
   asChild?: boolean
   side?: 'left' | 'right' | 'top' | 'bottom'
   align?: 'start' | 'center' | 'end'
+  isImg?: boolean
 }
 
 const Hint = ({
@@ -13,7 +15,8 @@ const Hint = ({
   label,
   align,
   asChild,
-  side
+  side,
+  isImg = false
 }: HintProps) => {
   
   return (
@@ -27,7 +30,8 @@ const Hint = ({
           side={side}
           align={align}
         >
-          <p className="font-semibold text-xs">{label}</p>
+          { !isImg && <p className="font-semibold text-xs">{label}</p>}
+          { isImg && <Image src={label} alt="hint" className="max-w-[200px] max-h-[200px] object-cover" width={400} height={400} />}
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

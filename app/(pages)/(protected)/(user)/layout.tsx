@@ -3,10 +3,8 @@ import Navbar, { NavbarSkeleton } from './_components/sidebar/navbar'
 import Container from './_components/container'
 import { getCurrentUser } from '@/actions/getCurrentUser'
 import { redirect } from 'next/navigation'
-import { UserType } from '@/enums/user-type.enum'
 import MediaManagementProvider from '@/context/media-management-provider'
 import { getFilesMetadata, getMedia } from '@/actions/get-media'
-import { FileMetadata } from '@/interfaces/movie'
 
 const UserLayout = async ({
   children
