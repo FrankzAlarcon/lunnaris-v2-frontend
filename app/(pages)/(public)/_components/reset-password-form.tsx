@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { NEXT_PUBLIC_BACKEND_URL, NEXT_PUBLIC_SOCKET_URL } from '@/config'
 import { useRegister } from '@/hooks/use-register'
 import { resetPasswordSchema } from '@/schemas/form.schema'
 import { zodResolver } from '@hookform/resolvers/zod'

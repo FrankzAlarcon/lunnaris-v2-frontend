@@ -16,16 +16,17 @@ export async function GET(
 
     const params = new URLSearchParams(request.url.split('?')[1])
     console.log(params)
-    const response = await fetch(`${CHAT_SERVICE_URL}/chat/?recipient=${params.get('recipient')}&create_flag`, {
+    console.log(user.token)
+    const response = await fetch(`${CHAT_SERVICE_URL}/chats/recipient/${params.get('recipient')}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${user.token}`
       }
     })
-
+    console.log(response)
     if (!response.ok) {
       console.log(await response.text())
-      return new NextResponse('Error al eliminar el registro', {
+      return new NextResponse('Error al obtener chats', {
         status: 400,
       })
     }

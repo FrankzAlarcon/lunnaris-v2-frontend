@@ -2,12 +2,15 @@
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Popover, PopoverContent } from '@/components/ui/popover'
 import { useMediaManagement } from '@/hooks/useMediaManagement'
 import { Genre } from '@/interfaces/media'
 import { createMultimediaSchema } from '@/schemas/multimedia.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { PopoverTrigger } from '@radix-ui/react-popover'
 import { Loader } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -108,7 +111,7 @@ const MultimediaForm = ({
   })
   const router = useRouter()
   const videoRef = useRef<HTMLVideoElement>(null)
-  const { addMedia } = useMediaManagement()
+  const { addMedia, files } = useMediaManagement()
 
   const handleDuration = (evt: SyntheticEvent<HTMLVideoElement, Event>) => {
     form.setValue('duration', String(videoRef.current?.duration))
@@ -237,9 +240,50 @@ const MultimediaForm = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Poster</FormLabel>
-              <FormControl>
-                <Input type='text' placeholder='Poster (ID de la imagen)' disabled={form.formState.isSubmitting} {...field}/>
-              </FormControl>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant='outline'
+                      role='combobox'
+                      className='w-full'
+                    >
+                      {
+                        field.value ? field.value : 'Seleccionar poster'
+                      }
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className='w-full max-h-80 overflow-scroll'>
+                  <Command>
+                    <CommandInput placeholder='Selecciona un poster' className='h-10' />
+                    <CommandEmpty>No se ha seleccionado un poster</CommandEmpty>
+                    <CommandGroup>
+                      {
+                        files.map((file) => {
+                          if (file.mimetype.includes('image')) {
+                            return (
+                              <CommandItem key={file.id} value={file.displayName} className='flex items-center gap-2'
+                                onSelect={() => {
+                                  form.setValue('poster', file.id)
+                                }}
+                              >
+                                <Image
+                                  src={file.url}
+                                  alt='poster'
+                                  width={50}
+                                  height={50}
+                                />
+                                <span>{file.displayName}</span>
+                              </CommandItem>
+                            )
+                          }
+                        })
+                      }
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
               <FormMessage className='text-xs' />
               <MultimediaPlaceholder type='image' value={field.value} />
             </FormItem>
@@ -251,9 +295,53 @@ const MultimediaForm = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Video</FormLabel>
-              <FormControl>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant='outline'
+                      role='combobox'
+                      className='w-full'
+                    >
+                      {
+                        field.value ? field.value : 'Seleccionar video'
+                      }
+                    </Button>
+                    {/* <Input type='text' placeholder='Poster (ID de la imagen)' disabled={form.formState.isSubmitting} {...field}/> */}
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className='w-full max-h-80 overflow-y-scroll'>
+                  <Command>
+                    <CommandInput placeholder='Selecciona un video' className='h-10' />
+                    <CommandEmpty>No se ha seleccionado un video</CommandEmpty>
+                    <CommandGroup>
+                      {
+                        files.map((file) => {
+                          if (file.mimetype.includes('video')) {
+                            return (
+                              <CommandItem key={file.id} value={file.displayName} className='flex items-center gap-2 w-full'
+                                onSelect={() => {
+                                  form.setValue('file', file.id)
+                                }}
+                              >
+                                <video
+                                  src={file.url}
+                                  width={70}
+                                  height={70}
+                                />
+                                <span>{file.displayName}</span>
+                              </CommandItem>
+                            )
+                          }
+                        })
+                      }
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              {/* <FormControl>
                 <Input type='text' placeholder='Video (ID del video)' disabled={form.formState.isSubmitting} {...field}/>
-              </FormControl>
+              </FormControl> */}
               <FormMessage className='text-xs' />
               <MultimediaPlaceholder type='video' videoRef={videoRef} handleDuration={handleDuration} value={field.value} />
             </FormItem>
@@ -279,9 +367,53 @@ const MultimediaForm = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Imagen</FormLabel>
-              <FormControl>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant='outline'
+                      role='combobox'
+                      className='w-full'
+                    >
+                      {
+                        field.value ? field.value : 'Seleccionar thumnail'
+                      }
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className='w-full max-h-80 overflow-scroll'>
+                  <Command>
+                    <CommandInput placeholder='Selecciona un thumbnail' className='h-10' />
+                    <CommandEmpty>No se ha seleccionado un poster</CommandEmpty>
+                    <CommandGroup>
+                      {
+                        files.map((file) => {
+                          if (file.mimetype.includes('image')) {
+                            return (
+                              <CommandItem key={file.id} value={file.displayName} className='flex items-center gap-2'
+                                onSelect={() => {
+                                  form.setValue('thumb', file.id)
+                                }}
+                              >
+                                <Image
+                                  src={file.url}
+                                  alt='thumbnail'
+                                  width={50}
+                                  height={50}
+                                />
+                                <span>{file.displayName}</span>
+                              </CommandItem>
+                            )
+                          }
+                        })
+                      }
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              {/* <FormControl>
                 <Input type='text' placeholder='Thumbnail (ID de la imagen)' disabled={form.formState.isSubmitting} {...field}/>
-              </FormControl>
+              </FormControl> */}
               <FormMessage className='text-xs' />
               <MultimediaPlaceholder type='image' value={field.value} />
             </FormItem>

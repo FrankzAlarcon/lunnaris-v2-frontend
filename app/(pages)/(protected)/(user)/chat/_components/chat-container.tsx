@@ -10,9 +10,9 @@ const ChatContainer = ({
   const session = useSession()
   useEffect(() => {
     if (session.data?.user?.id) {
-      socket.emit('join_chat', {
-        user: session.data.user.id
-      })
+      // socket.emit('join_chat', {
+      //   user: session.data.user.id
+      // })
     }
   }, [session])
 

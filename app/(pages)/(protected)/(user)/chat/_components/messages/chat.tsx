@@ -5,10 +5,10 @@ import UserAvatar from "@/components/user-avatar"
 import { useChat } from "@/hooks/use-chat"
 import useChatManagement from "@/hooks/use-chat-management"
 import { cn } from "@/lib/utils"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, MessageSquareDot } from "lucide-react"
 import { useMediaQuery } from "usehooks-ts"
 import ChatInput from "./chat-input"
-import { FormEvent, useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { socket } from "@/context/chat-context-provider"
 import { Message as IMessage, SendMessage } from "@/interfaces/user"
 import toast from "react-hot-toast"
@@ -32,6 +32,7 @@ const Chats = () => {
 
   useEffect(() => {
     socket.on('receive_message', (message: IMessage) => {
+      console.log('message received', message)
       handleAddMessage(message)
 
       socket.emit('message_received', message)
@@ -49,6 +50,7 @@ const Chats = () => {
       recipient: selectedUser.id,
       timestamp: Date.now(),
     }
+    console.log("sending chat", socket.connected, messageDto)
     socket.emit('send_message', messageDto)
     handleAddMessage({
       ...messageDto,
@@ -71,7 +73,10 @@ const Chats = () => {
     )}>
       {
         !selectedUser ? (
-          <p>Seleccione un chat</p>
+          <div className="flex flex-col items-center justify-center gap-8 h-full">
+            <p className="text-5xl text-green-500 font-black">Seleccione un chat</p>
+            <MessageSquareDot className="w-32 h-32 text-green-500" />
+          </div>
         ) : (
           <div className="h-full w-full">
             <div className="flex items-center gap-2 w-full bg-white py-1 h-14">

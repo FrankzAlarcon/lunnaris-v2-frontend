@@ -26,12 +26,12 @@ export const routes: Route[] = [
     Icon: PlayCircle,
     usersAllowed: [UserType.USER, UserType.ADMIN, UserType.MEDIA_MANAGER]
   }, 
-  // {
-  //   name: 'Social',
-  //   path: '/chat',
-  //   Icon: Users,
-  //   usersAllowed: [UserType.USER, UserType.ADMIN, UserType.MEDIA_MANAGER]
-  // },
+  {
+    name: 'Social',
+    path: '/chat',
+    Icon: Users,
+    usersAllowed: [UserType.USER, UserType.ADMIN, UserType.MEDIA_MANAGER]
+  },
   {
     name: 'Gestionar contenido',
     path: '/media-manager',
